@@ -1,57 +1,21 @@
-package mastermind_ai;
-
-import java.util.ArrayList;
+package hw4_group_1;
 
 public abstract class Player {
-	protected String guess;
-	protected String actualNumber;
-	protected ArrayList<String> previousGuesses;
-	protected ArrayList<Result> previousResults;
-
-	/*
-	 * Human and Computer implement differently Human should be asked for input
-	 * Computer chooses a number based on AI In both cases, append to
-	 * previousGuesses
-	 */
-	public abstract String makeGuess();
-
-	/*
-	 * Adds to our array list of pair values, representing previous results
-	 */
-	public void addToResults(Result p) {
-		previousResults.add(p);
+	public enum WhoseTurn {
+		HUMAN, COMPUTER
 	}
-
-	/*
-	 * Adds to our array list of string values, representing previous guesses
-	 */
-	public void addToGuesses(String s) {
-		previousGuesses.add(s);
-	}
-
-	/*
-	 * Setters and getters for most fields
-	 */
-
-	public void setGuess(String g) {
-		guess = g;
-	}
-
-	public void setActualNumber(String s) {
-		actualNumber = s;
-	}
-
-	public ArrayList<String> getPreviousGuesses() {
-		return previousGuesses;
-	}
-
-	public ArrayList<Result> getPreviousResults() {
-		return previousResults;
-	}
-
+	 /*
+	  * Human and Computer implement differently 
+	  * Human should be asked for input
+	  * Computer chooses a number based on AI
+	  * Human appends to log of prior guesses
+	  * Both return info about how turn was resolved
+	  */
+	public abstract Outcome playTurn(String opponentSecret);		
+	
 	// method that will evaluate a pair of numbers as indicated above and return
-	// a pair
-	public Result evaluate(String guess, String answer) {
+		// a pair
+	public static Result evaluate(String guess, String answer) {
 
 		/*
 		 * pair that will be returned with correct number of digits in the right
@@ -100,4 +64,5 @@ public abstract class Player {
 		return retPair;
 
 	}// end of evaluate(...)
+
 }
