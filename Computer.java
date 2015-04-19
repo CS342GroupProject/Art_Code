@@ -1,13 +1,11 @@
-package mastermind_ai;
+package hw4_group_1;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.ListIterator;
 
 public class Computer extends Player {
-
 	private static int secretLength = 4;
-	private static String mySecret, opponentSecret;
 	private static ArrayList<String> solutions;
 	private static Computer instance;
 
@@ -24,23 +22,11 @@ public class Computer extends Player {
 
 	// initialization code (in case multiple games are played in one session)
 	public void init() {
-		mySecret = instance.generateSecret();
-		solutions = instance.generateSolutions();
-		opponentSecret = null;
+		solutions = Computer.generateSolutions();
 	}
 
-	// sets Opponent secret
-	public void setOpponentSecret(String secret) {
-		opponentSecret = secret;
-	}
-
-	// returns Computer secret
-	public String getSecret() {
-		return mySecret;
-	}
-
-	// get 4 raandom non-repeating digits from 0..9 as a string
-	public String generateSecret() {
+	// get 4 random non-repeating digits from 0..9 as a string
+	public static String generateSecret() {
 		ArrayList<String> numbers = new ArrayList<String>();
 		String secret = "";
 
@@ -57,7 +43,7 @@ public class Computer extends Player {
 	}
 
 	// construct the initial solution set
-	private ArrayList<String> generateSolutions() {
+	public static ArrayList<String> generateSolutions() {
 		ArrayList<String> numbers = new ArrayList<String>();
 		for (int i = 0; i < 10; i++)
 			numbers.add(0, String.format("%d", i));
@@ -66,12 +52,12 @@ public class Computer extends Player {
 		return solutions;
 	}
 
-	// gather all 4-permutations of a string in a list of strings
-	private ArrayList<String> getPermutations(int size,
-			ArrayList<String> numbers) {
+	// gather all k-permutations of a string (represented as a list of
+	// single-character strings) in a list of strings
+	public static ArrayList<String> getPermutations(int k, ArrayList<String> numbers) {
 		ArrayList<String> suffixes = new ArrayList<String>();
-		if (size > 0) {
-			for (String s : getPermutations(size - 1, numbers))
+		if (k > 0) {
+			for (String s : getPermutations(k - 1, numbers))
 				for (String c : numbers)
 					if (!s.contains(c))
 						suffixes.add(0, s + c);
@@ -83,7 +69,8 @@ public class Computer extends Player {
 	// evaluate the first guess from solutions against the opponent secret
 	// eliminate all solutions that do not evaluate the same against our guess
 	// return the guess
-	public String makeGuess() {
+	@Override
+	public Outcome playTurn(String opponentSecret){
 		String newGuess = solutions.get(0);
 		Result newResult = evaluate(newGuess, opponentSecret);
 		ListIterator<String> iter = solutions.listIterator();
@@ -91,6 +78,7 @@ public class Computer extends Player {
 			if (!evaluate(iter.next(), newGuess).equals(newResult))
 				iter.remove();
 		}
-		return newGuess;
+		Outcome outcome = new Outcome(WhoseTurn.COMPUTER, newGuess, newResult);
+		return outcome;
 	}
 }
