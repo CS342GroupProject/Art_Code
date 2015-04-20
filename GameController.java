@@ -50,8 +50,8 @@ public class GameController {
 			outcome = computer.playTurn(humanSecret);
 		}
 		
-		currentRound++;
 		outcome.turnCount = currentRound;
+		currentRound++;
 		if(outcome.result.getCorrectPlaces() == 4)
 			outcome.win = true;
 		
