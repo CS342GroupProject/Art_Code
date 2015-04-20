@@ -18,6 +18,7 @@ public class Client {
 		
 		Outcome outcome;
 		int correct = 0;
+		int turns = 0;
 		System.out.println("Welcome to Master the Mind!\n");
 		
 		while(correct ==  0)
@@ -31,7 +32,7 @@ public class Client {
 		
 		game_controller = GameController.getInstance(input);
 
-		while( outcome.turnCount != 24)
+		while( turns < 20)
 		{
 			//Human Guesses 
 			if ( outcome.player == WhoseTurn.HUMAN)
@@ -71,6 +72,7 @@ public class Client {
 					break;
 				}
 			}
+			turns = outcome.turnCount;
 			
 		}
 		keyboard.close();
@@ -98,7 +100,7 @@ public class Client {
 		
 		for(i= 0; i < len; i++ )
 		{
-			for ( j = i + 1 ; j < len;)
+			for ( j = i + 1 ; j < len; j++)
 			{
 				if ( str.charAt(i) == str.charAt(j))
 				{
@@ -114,14 +116,6 @@ public class Client {
 		return 0;
 	}//end of check()
 	
-	public static void printHumanLog(ArrayList<String> prevGuesses, ArrayList<Result> prevResults){
-		int n = prevGuesses.size();
-		for(int i = 0; i < n; i++){
-			String guess = prevGuesses.get(i);
-			Result result = prevResults.get(i);
-			System.out.println("Your previous attempts:");
-			System.out.printf("Guess: %s\n\t%d in correct place\n\t%d in incorrect place", guess, result.getCorrectPlaces(), result.getWrongPlaces());
-		}
-	}
+	
 	
 }//end of client class
