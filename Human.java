@@ -54,12 +54,23 @@ public class Human extends Player {
 	 */
 	@Override
 	public Outcome playTurn(String opponentSecret) {
-		Client.printHumanLog(previousGuesses, previousResults);
+		Human.printHumanLog();
 		String guess = Client.getGuess();
 		Result result = evaluate(guess, opponentSecret);
 		addToGuesses(guess);
 		addToResults(result);
 		Outcome outcome = new Outcome(WhoseTurn.HUMAN, guess, result);
 		return outcome;
+	}
+	
+	public static void printHumanLog(){
+		int n = prevGuesses.size();
+		if(n == 0) return;
+		for(int i = 0; i < n; i++){
+			String guess = previousGuesses.get(i);
+			Result result = previousResults.get(i);
+			System.out.println("Your previous attempts:");
+			System.out.printf("Guess: %s\n\t%d in correct place\n\t%d in incorrect place", guess, result.getCorrectPlaces(), result.getWrongPlaces());
+		}
 	}
 }
