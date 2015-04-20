@@ -40,7 +40,6 @@ public class GameController {
 	 * Note: If either player guesses the correct number, -1 is returned in the first index of the array returned.
 	 */
 	public Outcome decideTurn() {
-		humanTurn = !humanTurn;
 		Outcome outcome;
 		if (humanTurn) {
 			humanTurn = false;
